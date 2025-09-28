@@ -64,3 +64,25 @@ A "proximidade" da rede elétrica será modelada através da criação de anéis
 * Aumentar a sofisticação e o alinhamento do modelo com a realidade econômica de projetos de energia.
 
 ---
+
+### 6. Tratamento de Sítios Arqueológicos
+
+**Decisão (28/09/2025):**
+Os sítios arqueológicos, que são dados pontuais, serão tratados como áreas de restrição através da criação de um **buffer circular de 1 km** ao redor de cada ponto.
+
+**Justificativa:**
+* A legislação brasileira exige a proteção da "vizinhança" dos sítios arqueológicos para mitigar os impactos de obras no entorno. Como não há um raio de proteção fixo e universal definido em lei, um buffer de 1 km foi adotado como uma medida metodológica conservadora para este estudo em escala nacional, em linha com o princípio de precaução na proteção do patrimônio cultural.
+
+**Base Legal:**
+* A proteção do patrimônio cultural no Brasil é um preceito da **Constituição Federal de 1988 (Art. 216)**, que define os sítios arqueológicos como patrimônio a ser protegido.
+* O **Decreto-Lei nº 25/1937** é o instrumento que institui o tombamento e estabelece a proteção da "vizinhança" de bens tombados, conceito que se aplica aos sítios.
+* A **Lei nº 3.924/1961** dispõe especificamente sobre os monumentos arqueológicos, reforçando sua proteção como bens da União. Embora seja anterior à Constituição de 1988 e faça referência a artigos de constituições passadas, seu conteúdo foi "recepcionado" pela constituição atual, pois sua essência é compatível e reforçada pelo Art. 216.
+* A **Instrução Normativa IPHAN nº 01/2015** regulamenta o processo de licenciamento ambiental e estabelece os procedimentos para a definição de perímetros de proteção caso a caso, com base em estudos de impacto.
+
+**Referências Legais:**
+* [Decreto-Lei nº 25 de 1937](http://portal.iphan.gov.br/uploads/legislacao/Decreto_no_25_de_30_de_novembro_de_1937.pdf)
+* [Lei nº 3.924 de 1961](https://www.jusbrasil.com.br/legislacao/128682/lei-3924-61)
+* [Instrução Normativa IPHAN nº 01 de 2015](http://portal.iphan.gov.br/uploads/legislacao/INSTRUCAO_NORMATIVA_001_DE_25_DE_MARCO_DE_2015.pdf)
+
+---
+
