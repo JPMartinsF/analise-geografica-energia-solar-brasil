@@ -86,3 +86,21 @@ Os sítios arqueológicos, que são dados pontuais, serão tratados como áreas 
 
 ---
 
+### 7. Tratamento das Áreas de Restrição (UC, TI, Quilombola, Assentamento)
+
+**Decisão (28/09/2025):**
+Todas as áreas de Unidades de Conservação (UC), Terras Indígenas (TI), Territórios Quilombolas e Assentamentos Rurais serão tratadas como zonas de exclusão e farão parte da máscara consolidada.
+
+**Justificativa:**
+* A exclusão dessas áreas se baseia em impedimentos legais, constitucionais e de função social que inviabilizam a instalação de projetos energéticos de grande porte.
+* **Base Legal Principal:**
+    * **UCs:** Lei nº 9.985/2000 (SNUC).
+    * **TIs:** Art. 231 da Constituição Federal de 1988.
+    * **Quilombolas:** Art. 68 do ADCT da Constituição Federal de 1988.
+    * **Assentamentos:** Lei nº 4.504/1964 (Estatuto da Terra) e sua função social.
+
+**Processo:**
+* Uma pesquisa detalhada por decretos e portarias específicas para cada camada será realizada durante a fase de redação da monografia para enriquecer a bibliografia. Para a modelagem, a justificativa principal acima é suficiente.
+
+---
+
