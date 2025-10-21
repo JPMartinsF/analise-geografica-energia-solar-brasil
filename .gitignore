@@ -209,3 +209,4 @@ __marimo__/
 # Ignorar todos os arquivos de dados brutos e processados, armazenados no GCP.
 data/raw/
 data/processed/
+.secrets/
