@@ -1,0 +1,30 @@
+# ------------------------------------------------
+# Dependências Diretas do Projeto
+# ------------------------------------------------
+
+# Análise de Dados e Geoprocessamento
+geopandas
+pandas
+numpy
+rasterio
+richdem
+networkx
+
+# Ambiente de Notebook
+jupyter
+matplotlib
+
+# Acesso à Nuvem e Configuração
+google-cloud-storage
+gcsfs
+earthengine-api
+python-dotenv
+
+# Ferramentas de Qualidade
+ruff
+
+# ------------------------------------------------
+# Dependências Específicas de Sistema Operacional
+# ------------------------------------------------
+pywin32; sys_platform == 'win32'
+pywinpty; sys_platform == 'win32'
