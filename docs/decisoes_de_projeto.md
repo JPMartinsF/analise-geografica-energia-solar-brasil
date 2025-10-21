@@ -104,3 +104,24 @@ Todas as áreas de Unidades de Conservação (UC), Terras Indígenas (TI), Terri
 
 ---
 
+
+### 8. Resolução dos Dados Topográficos
+
+**Decisão (20/10/2025):**
+Os dados de topografia (Modelo Digital de Elevação e Declividade) serão processados e exportados do Google Earth Engine com uma resolução espacial de **90 metros** por pixel.
+
+**Justificativa:**
+* A resolução nativa de 30m do SRTM gera arquivos excessivamente grandes (~4 GB) para uma análise em escala nacional, impactando negativamente o armazenamento e o tempo de processamento.
+* A resolução de 90m oferece um excelente balanço entre o detalhe do terreno e a performance computacional, sendo adequada para o escopo estratégico do projeto e mais compatível com a granularidade das outras camadas de dados.
+* Esta mudança resulta em uma redução de aproximadamente 90% no tamanho do arquivo, tornando o fluxo de trabalho mais eficiente.
+
+# Primeira reunião de acompanhamento
+Não chamar de restrição as "restrições de instalação", restrição é mais as s.a. da modelagem
+Na hora de rodar o solver, avaliar se tem que aumentar a granularidade
+Processamento nas máquinas do GTA (maquina sem GPU, só CPU) ou no GCP
+Rodar problemas menores depois de selecionar os top 10 (?) numa granularidade menor
+## Qual a restrição pra não colocar na área inteira? Tenho um número X de painéis? Tem uma quantidade de irradiação que eu quero alcançar? Q q impede de tudo zer X_i = 1? Tenho recursos infinitos? Procurar na dissertação de mestraddo de Saccardo.
+A máscara de restrição n é restrição, é pre processamento dos dados, pois no final somente as áreas possíveis seriam alimentadas no solver.
+Continuidade das áreas: Definir uma unidade mínima de painéis solares (quanto mais realista melhor, mas pode ser suposto) (qual o mínimo q uma empresa de paineis aceitaria instalar, 100 painéis? 200?), tipo áreas vizinas não necessariamente são a mesma área (pois seria muito difícil modelar isso no programa)
+Próxima etapa da modelagem pra pensar: adicionar a proximidade às linhas de transmissão à função objetivo (mais próximo é melhor) e avaliar os pesos que atribuo à distância e à irradiação.
+Formulação de p-dispersão, possivelmente queremos dispersar as UFVs ao invés de concentrar tudo. Motivação: curtailmente do setor elétrico? Colocar pesos na função objetivo, peso no espalhamento e peso na irradiação (b e 1-b)
