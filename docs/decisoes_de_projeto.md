@@ -104,3 +104,13 @@ Todas as áreas de Unidades de Conservação (UC), Terras Indígenas (TI), Terri
 
 ---
 
+
+### 8. Resolução dos Dados Topográficos
+
+**Decisão (20/10/2025):**
+Os dados de topografia (Modelo Digital de Elevação e Declividade) serão processados e exportados do Google Earth Engine com uma resolução espacial de **90 metros** por pixel.
+
+**Justificativa:**
+* A resolução nativa de 30m do SRTM gera arquivos excessivamente grandes (~4 GB) para uma análise em escala nacional, impactando negativamente o armazenamento e o tempo de processamento.
+* A resolução de 90m oferece um excelente balanço entre o detalhe do terreno e a performance computacional, sendo adequada para o escopo estratégico do projeto e mais compatível com a granularidade das outras camadas de dados.
+* Esta mudança resulta em uma redução de aproximadamente 90% no tamanho do arquivo, tornando o fluxo de trabalho mais eficiente.
