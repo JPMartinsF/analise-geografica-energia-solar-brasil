@@ -7,7 +7,6 @@ geopandas
 pandas
 numpy
 rasterio
-richdem
 networkx
 
 # Ambiente de Notebook
