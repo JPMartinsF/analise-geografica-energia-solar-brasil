@@ -29,6 +29,7 @@ async-lru==2.0.5
 attrs==25.3.0
     # via
     #   aiohttp
+    #   fiona
     #   jsonschema
     #   rasterio
     #   referencing
@@ -42,6 +43,7 @@ cachetools==6.2.1
     # via google-auth
 certifi==2025.8.3
     # via
+    #   fiona
     #   httpcore
     #   httpx
     #   pyogrio
@@ -56,11 +58,16 @@ click==8.3.0
     # via
     #   click-plugins
     #   cligj
+    #   fiona
     #   rasterio
 click-plugins==1.1.1.2
-    # via rasterio
+    # via
+    #   fiona
+    #   rasterio
 cligj==0.7.2
-    # via rasterio
+    # via
+    #   fiona
+    #   rasterio
 colorama==0.4.6
     # via
     #   click
@@ -87,6 +94,8 @@ executing==2.2.1
     # via stack-data
 fastjsonschema==2.21.2
     # via nbformat
+fiona==1.10.1
+    # via -r requirements.in
 fonttools==4.59.2
     # via matplotlib
 fqdn==1.5.1
