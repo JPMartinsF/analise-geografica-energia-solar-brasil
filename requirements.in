@@ -8,6 +8,7 @@ pandas
 numpy
 rasterio
 networkx
+fiona
 
 # Ambiente de Notebook
 jupyter
@@ -20,6 +21,7 @@ earthengine-api
 python-dotenv
 
 # Ferramentas de Qualidade
+pip-tools
 ruff
 
 # ------------------------------------------------

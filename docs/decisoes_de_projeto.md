@@ -125,3 +125,12 @@ A máscara de restrição n é restrição, é pre processamento dos dados, pois
 Continuidade das áreas: Definir uma unidade mínima de painéis solares (quanto mais realista melhor, mas pode ser suposto) (qual o mínimo q uma empresa de paineis aceitaria instalar, 100 painéis? 200?), tipo áreas vizinas não necessariamente são a mesma área (pois seria muito difícil modelar isso no programa)
 Próxima etapa da modelagem pra pensar: adicionar a proximidade às linhas de transmissão à função objetivo (mais próximo é melhor) e avaliar os pesos que atribuo à distância e à irradiação.
 Formulação de p-dispersão, possivelmente queremos dispersar as UFVs ao invés de concentrar tudo. Motivação: curtailmente do setor elétrico? Colocar pesos na função objetivo, peso no espalhamento e peso na irradiação (b e 1-b)
+
+### 10. Estratégia de Análise Topográfica Multiescala
+
+**Decisão (21/10/2025):**
+A análise topográfica será realizada em duas escalas, seguindo a orientação do Prof. Rodrigo de Souza Couto, para otimizar a performance computacional e a relevância da análise.
+
+**Processo:**
+1.  **Análise Macroscópica (Nível Brasil):** Para a primeira execução do modelo de otimização em escala nacional, os dados de declividade serão processados com uma **granularidade abrangente** (ex: 500m ou 1km). O objetivo nesta fase é identificar as macrorregiões mais promissoras sem o custo computacional de uma análise de alta resolução.
+2.  **Análise Microscópica (Nível Regional):** Após a identificação das áreas candidatas pelo modelo inicial, uma segunda análise, com a **granularidade fina** (90m ou 30m), será aplicada apenas nessas áreas selecionadas. O objetivo é refinar a seleção e validar a viabilidade topográfica local com alta precisão.
