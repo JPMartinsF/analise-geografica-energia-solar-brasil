@@ -126,7 +126,7 @@ Continuidade das áreas: Definir uma unidade mínima de painéis solares (quanto
 Próxima etapa da modelagem pra pensar: adicionar a proximidade às linhas de transmissão à função objetivo (mais próximo é melhor) e avaliar os pesos que atribuo à distância e à irradiação.
 Formulação de p-dispersão, possivelmente queremos dispersar as UFVs ao invés de concentrar tudo. Motivação: curtailmente do setor elétrico? Colocar pesos na função objetivo, peso no espalhamento e peso na irradiação (b e 1-b)
 
-### 10. Estratégia de Análise Multiescala e Granularidade
+### 9. Estratégia de Análise Multiescala e Granularidade
 
 **Decisão (26/10/2025):**
 A análise será conduzida com uma granularidade baseada nos dados de irradiação solar. A análise topográfica em escala nacional será processada com uma resolução de **1 km (1000 metros)**.
