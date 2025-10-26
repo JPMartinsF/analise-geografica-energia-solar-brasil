@@ -126,11 +126,12 @@ Continuidade das áreas: Definir uma unidade mínima de painéis solares (quanto
 Próxima etapa da modelagem pra pensar: adicionar a proximidade às linhas de transmissão à função objetivo (mais próximo é melhor) e avaliar os pesos que atribuo à distância e à irradiação.
 Formulação de p-dispersão, possivelmente queremos dispersar as UFVs ao invés de concentrar tudo. Motivação: curtailmente do setor elétrico? Colocar pesos na função objetivo, peso no espalhamento e peso na irradiação (b e 1-b)
 
-### 10. Estratégia de Análise Topográfica Multiescala
+### 10. Estratégia de Análise Multiescala e Granularidade
 
-**Decisão (21/10/2025):**
-A análise topográfica será realizada em duas escalas, seguindo a orientação do Prof. Rodrigo de Souza Couto, para otimizar a performance computacional e a relevância da análise.
+**Decisão (26/10/2025):**
+A análise será conduzida com uma granularidade baseada nos dados de irradiação solar. A análise topográfica em escala nacional será processada com uma resolução de **1 km (1000 metros)**.
 
-**Processo:**
-1.  **Análise Macroscópica (Nível Brasil):** Para a primeira execução do modelo de otimização em escala nacional, os dados de declividade serão processados com uma **granularidade abrangente** (ex: 500m ou 1km). O objetivo nesta fase é identificar as macrorregiões mais promissoras sem o custo computacional de uma análise de alta resolução.
-2.  **Análise Microscópica (Nível Regional):** Após a identificação das áreas candidatas pelo modelo inicial, uma segunda análise, com a **granularidade fina** (90m ou 30m), será aplicada apenas nessas áreas selecionadas. O objetivo é refinar a seleção e validar a viabilidade topográfica local com alta precisão.
+**Justificativa:**
+* A análise exploratória revelou que a granularidade efetiva do projeto, definida pelos polígonos do Atlas Brasileiro de Energia Solar, é de aproximadamente **10 km x 10 km**.
+* Usar a resolução nativa do SRTM (30m ou 90m) em escala nacional seria computacionalmente inviável e desnecessariamente detalhado para a fase de prospecção macro.
+* A resolução de 1 km para a topografia oferece um excelente balanço entre o detalhe do terreno e a performance computacional, sendo consistente com a granularidade dos outros dados e alinhada com a sugestão do orientador para uma análise multiescala.
