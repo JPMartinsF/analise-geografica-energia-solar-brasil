@@ -172,3 +172,15 @@ A revisão bibliográfica (baseada em Saccardo) identificou novos critérios pot
 **12.3. Critério Pendente: Irradiação Solar**
 * **Descoberta:** A literatura sugere usar a irradiação como um *filtro de exclusão* (ex: excluir áreas < X kWh/m²). Nosso modelo, a princípio, a utiliza na *função objetivo* (maximizar irradiação).
 * **Status:** **Pendente.** Será avaliado na Fase 2 se a maximização na função objetivo é suficiente ou se um limiar mínimo de exclusão também deve ser aplicado no pré-processamento.
+
+---
+
+### 13. Estratégia de Consolidação da Máscara de Exclusão
+
+**Decisão (09/11/2025):**
+Todas as camadas de exclusão (incluindo as consolidadas de vetor, como `mascara_exclusao_final.gpkg`, e as de raster, como `mascara_declividade_maior_5graus.tif`) serão combinadas em um **único arquivo raster final**: `mascara_exclusao_total.tif`.
+
+**Justificativa:**
+* **Eficiência de Combinação:** É a abordagem mais eficiente para unificar fontes de dados mistas (vetoriais e raster) em um formato comum. A alternativa (vetorizar o raster de declividade) seria computacionalmente inviável.
+* **Eficiência de Aplicação (Fase 2):** Um arquivo raster final é computacionalmente otimizado para a próxima fase. Ele permite "remover" as áreas de exclusão dos rasters de oportunidade (como Irradiação Solar) através de álgebra de mapas (multiplicação de arrays `numpy`), o que é instantâneo. A alternativa (usar a máscara vetorial para "clipar" o raster) exigiria operações espaciais complexas e lentas.
+* **Processo:** A consolidação é feita rasterizando qualquer camada de vetor para que ela se alinhe perfeitamente com a grade (shape e transform) do raster de molde (ex: `declividade_brasil_srtm_1km.tif`) e, em seguida, combinando todas as máscaras de raster usando operações lógicas (`numpy.logical_or`).
