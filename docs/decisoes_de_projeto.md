@@ -104,7 +104,6 @@ Todas as áreas de Unidades de Conservação (UC), Terras Indígenas (TI), Terri
 
 ---
 
-
 ### 8. Resolução dos Dados Topográficos
 
 **Decisão (20/10/2025):**
@@ -115,22 +114,61 @@ Os dados de topografia (Modelo Digital de Elevação e Declividade) serão proce
 * A resolução de 90m oferece um excelente balanço entre o detalhe do terreno e a performance computacional, sendo adequada para o escopo estratégico do projeto e mais compatível com a granularidade das outras camadas de dados.
 * Esta mudança resulta em uma redução de aproximadamente 90% no tamanho do arquivo, tornando o fluxo de trabalho mais eficiente.
 
-# Primeira reunião de acompanhamento
-Não chamar de restrição as "restrições de instalação", restrição é mais as s.a. da modelagem
-Na hora de rodar o solver, avaliar se tem que aumentar a granularidade
-Processamento nas máquinas do GTA (maquina sem GPU, só CPU) ou no GCP
-Rodar problemas menores depois de selecionar os top 10 (?) numa granularidade menor
-## Qual a restrição pra não colocar na área inteira? Tenho um número X de painéis? Tem uma quantidade de irradiação que eu quero alcançar? Q q impede de tudo zer X_i = 1? Tenho recursos infinitos? Procurar na dissertação de mestraddo de Saccardo.
-A máscara de restrição n é restrição, é pre processamento dos dados, pois no final somente as áreas possíveis seriam alimentadas no solver.
-Continuidade das áreas: Definir uma unidade mínima de painéis solares (quanto mais realista melhor, mas pode ser suposto) (qual o mínimo q uma empresa de paineis aceitaria instalar, 100 painéis? 200?), tipo áreas vizinas não necessariamente são a mesma área (pois seria muito difícil modelar isso no programa)
-Próxima etapa da modelagem pra pensar: adicionar a proximidade às linhas de transmissão à função objetivo (mais próximo é melhor) e avaliar os pesos que atribuo à distância e à irradiação.
-Formulação de p-dispersão, possivelmente queremos dispersar as UFVs ao invés de concentrar tudo. Motivação: curtailmente do setor elétrico? Colocar pesos na função objetivo, peso no espalhamento e peso na irradiação (b e 1-b)
+---
 
-### 10. Estratégia de Análise Topográfica Multiescala
+### 9. Estratégia de Análise Multiescala e Granularidade
 
-**Decisão (21/10/2025):**
-A análise topográfica será realizada em duas escalas, seguindo a orientação do Prof. Rodrigo de Souza Couto, para otimizar a performance computacional e a relevância da análise.
+**Decisão (26/10/2025):**
+A análise será conduzida com uma granularidade baseada nos dados de irradiação solar. A análise topográfica em escala nacional será processada com uma resolução de **1 km (1000 metros)**.
+
+**Justificativa:**
+* A análise exploratória revelou que a granularidade efetiva do projeto, definida pelos polígonos do Atlas Brasileiro de Energia Solar, é de aproximadamente **10 km x 10 km**.
+* Usar a resolução nativa do SRTM (30m ou 90m) em escala nacional seria computacionalmente inviável e desnecessariamente detalhado para a fase de prospecção macro.
+* A resolução de 1 km para a topografia oferece um excelente balanço entre o detalhe do terreno e a performance computacional, sendo consistente com a granularidade dos outros dados e alinhada com a sugestão do orientador para uma análise multiescala.
+
+---
+
+### 10. Distinção Metodológica: Pré-processamento vs. Restrições do Solver
+
+**Decisão (08/11/2025):**
+Conforme sugestão do orientador, os critérios de exclusão (UCs, TIs, Sítios Arqueológicos, Declividade > 5°, etc.) **não** serão modelados como "restrições" (`constraints`) dentro do solver de otimização matemática.
+
+**Justificativa:**
+* Estas áreas representam "impossibilidades" físicas, legais ou metodológicas, e não escolhas a serem feitas pelo modelo.
 
 **Processo:**
-1.  **Análise Macroscópica (Nível Brasil):** Para a primeira execução do modelo de otimização em escala nacional, os dados de declividade serão processados com uma **granularidade abrangente** (ex: 500m ou 1km). O objetivo nesta fase é identificar as macrorregiões mais promissoras sem o custo computacional de uma análise de alta resolução.
-2.  **Análise Microscópica (Nível Regional):** Após a identificação das áreas candidatas pelo modelo inicial, uma segunda análise, com a **granularidade fina** (90m ou 30m), será aplicada apenas nessas áreas selecionadas. O objetivo é refinar a seleção e validar a viabilidade topográfica local com alta precisão.
+* Todas as camadas de exclusão serão consolidadas em um único arquivo (`mascara_exclusao_total.gpkg` ou `.tif`) durante a **Fase 1 (Pré-processamento)**.
+* O modelo de otimização (Fase 2) será alimentado *apenas* com as áreas candidatas que já são válidas (ou seja, que estão *fora* da máscara de exclusão). Isso torna o problema muito mais leve e computacionalmente tratável.
+
+---
+
+### 11. Metodologia de Otimização (Programação Inteira vs. MCDM)
+
+**Decisão (08/11/2025):**
+A análise da dissertação de Saccardo (referencial bibliográfico principal) revelou uma diferença metodológica crucial. A dissertação de Saccardo utiliza **MCDM (Multi-Criteria Decision Making)**, que resulta em um *mapa de aptidão* (um "ranking" de áreas de 0 a 100). Nosso projeto utiliza **Programação Inteira Binária**, que *seleciona* áreas candidatas (`xi​∈{0,1}`).
+
+**Impacto:**
+* O modelo MCDM não necessita de uma "restrição de orçamento", pois seu objetivo é classificar.
+* Nosso modelo de Programação Inteira **exige** uma restrição global para evitar uma solução trivial (onde `xi = 1` para todas as áreas válidas).
+
+**Status:**
+* A definição exata desta restrição (ex: `Σ (Area_i * x_i) <= Limite_Total_Area` ou `Σ (Potencial_Geracao_i * x_i) >= Meta_Nacional_Geracao`) é a principal pendência metodológica a ser definida para a Fase 2 do projeto.
+
+---
+
+### 12. GAPs e Decisões de Escopo (Pós-Análise Bibliográfica)
+
+**Data (08/11/2025):**
+A revisão bibliográfica (baseada em Saccardo) identificou novos critérios potenciais para o modelo. O status de cada um foi definido para gerenciar o escopo e o cronograma do projeto.
+
+**12.1. GAP Crítico (Pendente): Recursos Hídricos**
+* **Descoberta:** A literatura aponta rios, lagos (para evitar APPs e risco de inundação) e a linha de costa (para evitar corrosão salina) como critérios de exclusão críticos.
+* **Status:** **Pendente.** Dada a alta complexidade de processar esses dados (ex: aplicar buffers de APP variáveis para rios conforme a lei) e o prazo apertado (entrega em Dez/2025), a inclusão desta camada será validada com o orientador (Prof. Rodrigo) antes de ser iniciada.
+
+**12.2. Critérios Fora do Escopo (Trabalhos Futuros)**
+* **Decisão:** Os critérios de **Tipo de Solo**, **Falhas Geológicas** e **Altitude Elevada**, embora citados na literatura, serão formalmente classificados como **fora do escopo** deste TCC.
+* **Justificativa:** A alta complexidade na obtenção e processamento dos dados (Solos, Falhas) e a baixa relevância do critério no contexto geográfico brasileiro (Altitude) não justificam o impacto no cronograma. Serão incluídos na dissertação como **Limitações e Sugestões para Trabalhos Futuros**.
+
+**12.3. Critério Pendente: Irradiação Solar**
+* **Descoberta:** A literatura sugere usar a irradiação como um *filtro de exclusão* (ex: excluir áreas < X kWh/m²). Nosso modelo, a princípio, a utiliza na *função objetivo* (maximizar irradiação).
+* **Status:** **Pendente.** Será avaliado na Fase 2 se a maximização na função objetivo é suficiente ou se um limiar mínimo de exclusão também deve ser aplicado no pré-processamento.
