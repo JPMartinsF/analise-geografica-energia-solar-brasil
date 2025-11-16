@@ -144,15 +144,21 @@ Conforme sugestão do orientador, os critérios de exclusão (UCs, TIs, Sítios 
 
 ### 11. Metodologia de Otimização (Programação Inteira vs. MCDM)
 
-**Decisão (08/11/2025):**
-A análise da dissertação de Saccardo (referencial bibliográfico principal) revelou uma diferença metodológica crucial. A dissertação de Saccardo utiliza **MCDM (Multi-Criteria Decision Making)**, que resulta em um *mapa de aptidão* (um "ranking" de áreas de 0 a 100). Nosso projeto utiliza **Programação Inteira Binária**, que *seleciona* áreas candidatas (`xi​∈{0,1}`).
+**Decisão (09/11/2025):**
+A análise da dissertação de Saccardo confirmou uma diferença metodológica crucial: Saccardo utiliza **MCDM (Multi-Criteria Decision Making)**, que resulta em um *ranking* de aptidão. Nosso projeto utiliza **Programação Inteira Binária**, que *seleciona* um conjunto ótimo de áreas (`xi ∈ {0,1}`).
 
-**Impacto:**
-* O modelo MCDM não necessita de uma "restrição de orçamento", pois seu objetivo é classificar.
-* Nosso modelo de Programação Inteira **exige** uma restrição global para evitar uma solução trivial (onde `xi = 1` para todas as áreas válidas).
+**Impacto (Abordagem Proposta):**
+O modelo MCDM não necessita de um "limitante" global. Nosso modelo de Programação Inteira, seguindo o conselho do orientador ("começar simples e incrementar"), será desenvolvido em duas etapas:
 
-**Status:**
-* A definição exata desta restrição (ex: `Σ (Area_i * x_i) <= Limite_Total_Area` ou `Σ (Potencial_Geracao_i * x_i) >= Meta_Nacional_Geracao`) é a principal pendência metodológica a ser definida para a Fase 2 do projeto.
+* **Modelo 1 (Base):** Um modelo de **Maximização de Benefício**, que servirá como linha de base e para a disciplina de Otimização.
+    * **Objetivo:** `Maximizar Irradiação Total`
+    * **Restrição:** `Sujeito a um Limite de Área Total` (ex: selecionar os 2.000 km² de maior irradiação).
+
+* **Modelo 2 (Avançado):** Um modelo de **Minimização de Custo** para atender uma meta de política pública.
+    * **Objetivo:** `Minimizar Custo Total de Instalação` (baseado principalmente na distância da rede elétrica).
+    * **Restrição:** `Sujeito a Atingir a Meta de Geração` de **25,8 GW** de expansão solar, conforme definido no **Plano Decenal de Energia (PDE 2034)**.
+
+**Status:** (Proposta para validação com o orientador na reunião de 17/11).
 
 ---
 
@@ -169,9 +175,10 @@ A revisão bibliográfica (baseada em Saccardo) identificou novos critérios pot
 * **Decisão:** Os critérios de **Tipo de Solo**, **Falhas Geológicas** e **Altitude Elevada**, embora citados na literatura, serão formalmente classificados como **fora do escopo** deste TCC.
 * **Justificativa:** A alta complexidade na obtenção e processamento dos dados (Solos, Falhas) e a baixa relevância do critério no contexto geográfico brasileiro (Altitude) não justificam o impacto no cronograma. Serão incluídos na dissertação como **Limitações e Sugestões para Trabalhos Futuros**.
 
-**12.3. Critério Pendente: Irradiação Solar**
-* **Descoberta:** A literatura sugere usar a irradiação como um *filtro de exclusão* (ex: excluir áreas < X kWh/m²). Nosso modelo, a princípio, a utiliza na *função objetivo* (maximizar irradiação).
-* **Status:** **Pendente.** Será avaliado na Fase 2 se a maximização na função objetivo é suficiente ou se um limiar mínimo de exclusão também deve ser aplicado no pré-processamento.
+**12.3. Critério de Viabilidade: Irradiação Solar Mínima**
+* **Decisão:** Além de usar a irradiação na função objetivo (ou na restrição de meta), será aplicado um **filtro de exclusão** no pré-processamento. Áreas com irradiação abaixo de um limiar mínimo de viabilidade econômica serão removidas.
+* **Justificativa:** Esta é uma prática padrão da indústria para evitar a seleção de locais economicamente inviáveis. A literatura de referência (Saccardo, 2024) valida esta abordagem, adotando um limiar de **5,0 kWh/m²/dia** como o nível "Neutro" (o mais baixo) em seu modelo de classificação.
+* **Status:** (Proposta para validação com o orientador).
 
 ---
 
