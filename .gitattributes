@@ -1,6 +1,4 @@
-# Forçar finais de linha LF (Linux) para todos os arquivos de texto
+# Forçar finais de linha LF (Linux) para todos os arquivos
 * text=auto eol=lf
-
-# Forçar especificamente para notebooks e python
 *.ipynb text eol=lf
 *.py text eol=lf
