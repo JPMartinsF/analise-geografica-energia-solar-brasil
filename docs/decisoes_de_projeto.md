@@ -145,14 +145,14 @@ Conforme sugestão do orientador, os critérios de exclusão (UCs, TIs, Sítios 
 ### 11. Metodologia de Otimização (Programação Inteira vs. MCDM)
 
 **Decisão (08/11/2025):**
-A análise da dissertação de Saccardo (referencial bibliográfico principal) revelou uma diferença metodológica crucial. A dissertação de Saccardo utiliza **MCDM (Multi-Criteria Decision Making)**, que resulta em um *mapa de aptidão* (um "ranking" de áreas de 0 a 100). Nosso projeto utiliza **Programação Inteira Binária**, que *seleciona* áreas candidatas (`xi​∈{0,1}`).
+A análise da dissertação de Saccardo (referencial bibliográfico principal) revelou uma diferença metodológica crucial. A dissertação de Saccardo utiliza **MCDM (Multi-Criteria Decision Making)**, que resulta em um *mapa de aptidão* (um "ranking" de áreas de 0 a 100). Nosso projeto utiliza **Programação Inteira Binária**, que *seleciona* áreas candidatas (`xi ∈ {0,1}`).
 
 **Impacto:**
 * O modelo MCDM não necessita de uma "restrição de orçamento", pois seu objetivo é classificar.
 * Nosso modelo de Programação Inteira **exige** uma restrição global para evitar uma solução trivial (onde `xi = 1` para todas as áreas válidas).
 
 **Status:**
-* A definição exata desta restrição (ex: `Σ (Area_i * x_i) <= Limite_Total_Area` ou `Σ (Potencial_Geracao_i * x_i) >= Meta_Nacional_Geracao`) é a principal pendência metodológica a ser definida para a Fase 2 do projeto.
+* A definição exata desta restrição foi resolvida na Decisão 16 (Metas de Expansão).
 
 ---
 
@@ -184,3 +184,52 @@ Todas as camadas de exclusão (incluindo as consolidadas de vetor, como `mascara
 * **Eficiência de Combinação:** É a abordagem mais eficiente para unificar fontes de dados mistas (vetoriais e raster) em um formato comum. A alternativa (vetorizar o raster de declividade) seria computacionalmente inviável.
 * **Eficiência de Aplicação (Fase 2):** Um arquivo raster final é computacionalmente otimizado para a próxima fase. Ele permite "remover" as áreas de exclusão dos rasters de oportunidade (como Irradiação Solar) através de álgebra de mapas (multiplicação de arrays `numpy`), o que é instantâneo. A alternativa (usar a máscara vetorial para "clipar" o raster) exigiria operações espaciais complexas e lentas.
 * **Processo:** A consolidação é feita rasterizando qualquer camada de vetor para que ela se alinhe perfeitamente com a grade (shape e transform) do raster de molde (ex: `declividade_brasil_srtm_1km.tif`) e, em seguida, combinando todas as máscaras de raster usando operações lógicas (`numpy.logical_or`).
+
+---
+
+### 14. Formato de Dados para Otimização (Camada Prata/Ouro)
+
+**Decisão (04/02/2026):**
+Para a etapa de otimização (Solver), os dados espaciais (shapefiles, tiffs) serão convertidos e armazenados no formato tabular **CSV** (ou Parquet para grandes volumes).
+
+**Justificativa:**
+* **Natureza do Solver:** Algoritmos de programação linear (PuLP, Gurobi) exigem matrizes numéricas, não geometrias complexas.
+* **Performance:** Carregar CSV/Parquet é significativamente mais rápido e consome menos memória RAM do que carregar geometrias via GeoPandas, o que é crítico para evitar travamentos em análises de larga escala.
+* **Limpeza:** Separa a lógica de processamento geoespacial (pesado) da lógica de otimização matemática.
+
+---
+
+### 15. Estrutura de Armazenamento GCP (Inputs do Solver)
+
+**Decisão (04/02/2026):**
+Foi criada uma nova estrutura de diretórios no Google Cloud Storage (Bucket) especificamente para armazenar as matrizes de entrada do modelo matemático, separada dos arquivos brutos e processados geoespaciais.
+* Caminho: `tcc-usinas-solares-brasil-dados/solver_inputs/`
+
+**Justificativa:**
+* Evitar a mistura de arquivos intermediários de geoprocessamento (TIFFs, GPKGs) com os dados finais prontos para o solver.
+* Facilitar a leitura direta pelo script de otimização sem necessidade de refazer o ETL geográfico.
+
+---
+
+### 16. Definição das Metas de Expansão (Target MW)
+
+**Decisão (04/02/2026):**
+O objetivo do modelo de otimização será alocar capacidade instalada suficiente para atender à "Expansão Indicativa" prevista no planejamento energético nacional.
+* **Fonte dos Dados:** Plano Decenal de Expansão de Energia (PDE) 2034, Tabela I-5 (Expansão da Oferta de Energia Elétrica - Referência).
+* **Metodologia de Cálculo:** Soma da expansão indicativa fotovoltaica centralizada prevista para o período de 2028 a 2034.
+
+**Valores Definidos:**
+* **Cenário Referência (Base):** **8.600 MW** (Valor exato do PDE 2034).
+* **Cenário Pessimista:** **6.880 MW** (80% da Referência - Simulação de estagnação baseada no Box 2.2 do PDE).
+* **Cenário Otimista:** **10.320 MW** (120% da Referência).
+
+---
+
+### 17. Tratamento da Restrição Orçamentária (Investimento)
+
+**Decisão (04/02/2026):**
+O valor de investimento total estimado no PDE (R$ 31,18 bilhões) será utilizado como **parâmetro de validação e análise de eficiência**, e não como uma restrição rígida (*Hard Constraint*) no modelo inicial.
+
+**Justificativa:**
+* **Variabilidade Regional:** O custo de implantação varia drasticamente por região (logística, terraplanagem, conexão). Usar uma média nacional como teto rígido poderia tornar o problema inviável artificialmente em regiões mais caras.
+* **Estratégia de Defesa:** O objetivo é minimizar o custo para atingir a meta de 8.600 MW. Comparar o custo resultante do modelo *versus* o orçamento do PDE permitirá conclusões analíticas valiosas (ex: "O modelo otimizado economizou X bilhões" ou "O orçamento do PDE está subestimado para a realidade geográfica").
