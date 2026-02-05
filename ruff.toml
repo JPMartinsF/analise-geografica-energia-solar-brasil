@@ -1,0 +1,6 @@
+# Ignora a pasta de notebooks (já que é código exploratório)
+exclude = ["notebooks"]
+
+# Mantenha a config de line-ending se quiser, mas o exclude resolve o erro
+[format]
+line-ending = "lf"
