@@ -152,7 +152,7 @@ A análise da dissertação de Saccardo (referencial bibliográfico principal) r
 * Nosso modelo de Programação Inteira **exige** uma restrição global para evitar uma solução trivial (onde `xi = 1` para todas as áreas válidas).
 
 **Status:**
-* A definição exata desta restrição foi resolvida na Decisão 16 (Metas de Expansão).
+* A definição exata desta restrição (ex: `Σ (Area_i * x_i) <= Limite_Total_Area` ou `Σ (Potencial_Geracao_i * x_i) >= Meta_Nacional_Geracao`) é a principal pendência metodológica a ser definida para a Fase 2 do projeto.
 
 ---
 
@@ -169,9 +169,10 @@ A revisão bibliográfica (baseada em Saccardo) identificou novos critérios pot
 * **Decisão:** Os critérios de **Tipo de Solo**, **Falhas Geológicas** e **Altitude Elevada**, embora citados na literatura, serão formalmente classificados como **fora do escopo** deste TCC.
 * **Justificativa:** A alta complexidade na obtenção e processamento dos dados (Solos, Falhas) e a baixa relevância do critério no contexto geográfico brasileiro (Altitude) não justificam o impacto no cronograma. Serão incluídos na dissertação como **Limitações e Sugestões para Trabalhos Futuros**.
 
-**12.3. Critério Pendente: Irradiação Solar**
-* **Descoberta:** A literatura sugere usar a irradiação como um *filtro de exclusão* (ex: excluir áreas < X kWh/m²). Nosso modelo, a princípio, a utiliza na *função objetivo* (maximizar irradiação).
-* **Status:** **Pendente.** Será avaliado na Fase 2 se a maximização na função objetivo é suficiente ou se um limiar mínimo de exclusão também deve ser aplicado no pré-processamento.
+**12.3. Critério de Viabilidade: Irradiação Solar Mínima**
+* **Decisão:** Além de usar a irradiação na função objetivo (ou na restrição de meta), será aplicado um **filtro de exclusão** no pré-processamento. Áreas com irradiação abaixo de um limiar mínimo de viabilidade econômica serão removidas.
+* **Justificativa:** Esta é uma prática padrão da indústria para evitar a seleção de locais economicamente inviáveis. A literatura de referência (Saccardo, 2024) valida esta abordagem, adotando um limiar de **5,0 kWh/m²/dia** como o nível "Neutro" (o mais baixo) em seu modelo de classificação.
+* **Status:** (Proposta para validação com o orientador).
 
 ---
 
