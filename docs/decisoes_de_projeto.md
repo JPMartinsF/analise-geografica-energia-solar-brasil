@@ -234,3 +234,19 @@ O valor de investimento total estimado no PDE (R$ 31,18 bilhões) será utilizad
 **Justificativa:**
 * **Variabilidade Regional:** O custo de implantação varia drasticamente por região (logística, terraplanagem, conexão). Usar uma média nacional como teto rígido poderia tornar o problema inviável artificialmente em regiões mais caras.
 * **Estratégia de Defesa:** O objetivo é minimizar o custo para atingir a meta de 8.600 MW. Comparar o custo resultante do modelo *versus* o orçamento do PDE permitirá conclusões analíticas valiosas (ex: "O modelo otimizado economizou X bilhões" ou "O orçamento do PDE está subestimado para a realidade geográfica").
+
+---
+
+### 18. Processamento do ETL Fundiário (Notebook 08)
+
+**Decisão (04/04/2026):**
+Reduzir o espaço de busca contínuo para um conjunto discreto de latifúndios viáveis em MG, cruzando dados vetoriais (INCRA) com o raster de exclusão (topografia + restrições ambientais).
+
+**Processo e Resultados:**
+* **Unificação de Fontes:** As bases do SIGEF e SNCI foram unificadas para formar a malha fundiária certificada de Minas Gerais, partindo de um universo inicial de **293.780 propriedades**.
+* **Corte de Área Bruta:** Aplicou-se o filtro metodológico exigindo área $\geq 100$ hectares. Isso reduziu a base para **63.712 propriedades** (redução primária de 78,3%, eliminando minifúndios).
+* **Correção de Projeção (Área do Pixel):** Para evitar a distorção geográfica do EPSG:4326 ao calcular a área útil, projetou-se um pixel simulado no centro de MG (Lon -44, Lat -18) no CRS UTM métrico (EPSG:31983). A área cravou em **94.54 hectares por pixel**.
+* **Cruzamento Espacial (Vector vs Raster):** Utilizou-se a biblioteca `rasterstats` (`zonal_stats`) para somar os pixels inviáveis dentro de cada fazenda e subtraí-los do total, encontrando a **Área Útil** real.
+* **Corte de Área Útil:** Após aplicar o filtro de 100 hectares sobre a *área útil* (livre de morros e reservas), o número de latifúndios viáveis caiu para apenas **8.150 propriedades** (descarte de 87,2% das áreas brutas).
+* **Cálculo de Potencial:** Utilizando a métrica do NREL (3,6 ha/MW), as 8.150 propriedades somam um potencial técnico mapeado de **1.080 GW**.
+* **Exportação:** Os dados finais limpos (geometria + área útil + potencial MW) foram salvos como `candidatos_solares_mg_limpo.gpkg` na camada Prata/Ouro para a próxima etapa de cálculo de distância.
