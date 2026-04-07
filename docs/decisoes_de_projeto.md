@@ -250,3 +250,16 @@ Reduzir o espaço de busca contínuo para um conjunto discreto de latifúndios v
 * **Corte de Área Útil:** Após aplicar o filtro de 100 hectares sobre a *área útil* (livre de morros e reservas), o número de latifúndios viáveis caiu para apenas **8.150 propriedades** (descarte de 87,2% das áreas brutas).
 * **Cálculo de Potencial:** Utilizando a métrica do NREL (3,6 ha/MW), as 8.150 propriedades somam um potencial técnico mapeado de **1.080 GW**.
 * **Exportação:** Os dados finais limpos (geometria + área útil + potencial MW) foram salvos como `candidatos_solares_mg_limpo.gpkg` na camada Prata/Ouro para a próxima etapa de cálculo de distância.
+
+---
+
+### 19. Modelagem do Custo de Conexão à Rede (Notebook 09)
+
+**Decisão (07/04/2026):**
+A variável de proximidade com a rede elétrica evoluiu de uma restrição binária (estar dentro/fora de um buffer) para uma **função de custo contínuo ($C_i$)**. O modelo matemático agora penalizará fazendas distantes através de um custo estimado (CAPEX) de construção de linhas de transmissão.
+
+**Processo e Resultados:**
+* **Filtro de Tensão:** A malha de infraestrutura do SIN (subestações e linhas) foi filtrada para manter apenas ativos com tensão $\geq 230$ kV, adequados para o escoamento de usinas de Geração Centralizada.
+* **Métrica de Distância:** Os latifúndios candidatos e a infraestrutura foram reprojetados para o CRS métrico (EPSG:31983 - UTM). Calculou-se a distância euclidiana exata entre o centroide de cada propriedade e o ativo de rede mais próximo (`sjoin_nearest`).
+* **Premissa de CAPEX:** Adotou-se o valor de referência conservador de **R$ 1.500.000,00 por quilômetro** construído de Linha de Transmissão (LT), gerando a variável de decisão financeira `custo_conexao_rs` para cada latifúndio.
+* **Geração do Input (Prata -> Ouro):** Para otimizar a performance do motor matemático (*Solver*), as geometrias espaciais pesadas (polígonos) foram descartadas. Os dados de id, potencial (MW) e custo (R$) das 8.150 fazendas de MG foram consolidados em um formato tabular leve e exportados como `candidatos_solver_mg.csv` (separador `;`, decimal `,`) diretamente para a camada `solver_inputs/` no Google Cloud Storage.
